@@ -1,0 +1,138 @@
+/* ============================================
+   DESIGN TOKENS — Executive Snapshot Dashboard
+   ============================================ */
+
+:root {
+  /* ---- Color Palette (Dark Mode Default) ---- */
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d2e;
+  --bg-card: rgba(26, 29, 46, 0.85);
+  --bg-card-hover: rgba(34, 38, 62, 0.95);
+  --bg-glass: rgba(255, 255, 255, 0.03);
+
+  --text-primary: #f0f2f5;
+  --text-secondary: #8b8fa3;
+  --text-muted: #5a5e72;
+
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+
+  /* ---- Accent Colors ---- */
+  --accent-emerald: #34d399;
+  --accent-emerald-soft: rgba(52, 211, 153, 0.15);
+  --accent-coral: #f87171;
+  --accent-coral-soft: rgba(248, 113, 113, 0.15);
+  --accent-blue: #60a5fa;
+  --accent-blue-soft: rgba(96, 165, 250, 0.15);
+  --accent-amber: #fbbf24;
+  --accent-amber-soft: rgba(251, 191, 36, 0.15);
+  --accent-violet: #a78bfa;
+  --accent-violet-soft: rgba(167, 139, 250, 0.15);
+  --accent-cyan: #22d3ee;
+  --accent-cyan-soft: rgba(34, 211, 238, 0.15);
+
+  /* ---- Gradients ---- */
+  --gradient-emerald: linear-gradient(135deg, #34d399, #10b981);
+  --gradient-coral: linear-gradient(135deg, #f87171, #ef4444);
+  --gradient-blue: linear-gradient(135deg, #60a5fa, #3b82f6);
+  --gradient-amber: linear-gradient(135deg, #fbbf24, #f59e0b);
+
+  /* ---- Chart Colors ---- */
+  --chart-line-1: #34d399;
+  --chart-line-2: #60a5fa;
+  --chart-line-3: #f87171;
+  --chart-line-4: #fbbf24;
+  --chart-fill-1: rgba(52, 211, 153, 0.1);
+  --chart-fill-2: rgba(96, 165, 250, 0.1);
+  --chart-fill-3: rgba(248, 113, 113, 0.1);
+  --chart-grid: rgba(255, 255, 255, 0.05);
+  --chart-text: #8b8fa3;
+
+  /* ---- Typography ---- */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --fs-kpi: 2.5rem;
+  --fs-h1: 1.75rem;
+  --fs-h2: 1.25rem;
+  --fs-h3: 1rem;
+  --fs-body: 0.875rem;
+  --fs-caption: 0.75rem;
+  --fs-micro: 0.625rem;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.75;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* ---- Border Radius ---- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
+
+  /* ---- Shadows ---- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --shadow-glow-emerald: 0 0 20px rgba(52, 211, 153, 0.15);
+  --shadow-glow-blue: 0 0 20px rgba(96, 165, 250, 0.15);
+  --shadow-glow-coral: 0 0 20px rgba(248, 113, 113, 0.15);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ---- Z-Index Scale ---- */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 50;
+  --z-modal: 100;
+}
+
+/* ---- Light Mode Overrides ---- */
+[data-theme="light"] {
+  --bg-primary: #f5f6fa;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --bg-card-hover: rgba(255, 255, 255, 1);
+  --bg-glass: rgba(0, 0, 0, 0.02);
+
+  --text-primary: #1a1d2e;
+  --text-secondary: #64688b;
+  --text-muted: #9ca0b8;
+
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.15);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.1);
+  --shadow-glow-emerald: 0 0 20px rgba(16, 185, 129, 0.1);
+  --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.1);
+  --shadow-glow-coral: 0 0 20px rgba(239, 68, 68, 0.1);
+
+  --chart-grid: rgba(0, 0, 0, 0.06);
+  --chart-text: #64688b;
+}

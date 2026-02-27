@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Executive Snapshot Dashboard — Real-time business intelligence for founders and leadership teams. Track revenue, cash runway, burn rate, and pipeline at a glance.">
+
+  <title>NLRC Dashboard — Command Center</title>
+
+  <!-- Favicon -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <div class="dashboard" id="dashboard">
+
+    <!-- ====== HEADER ====== -->
+    <header class="dashboard-header">
+      <div class="header-left">
+        <div class="logo">⚡</div>
+        <div class="header-title">
+          <h1>NLRC Dashboard</h1>
+          <p id="lastUpdated">Loading...</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Date Range Filter -->
+        <nav class="filter-bar" aria-label="Date range filter">
+          <button class="filter-pill" data-range="7d">7D</button>
+          <button class="filter-pill" data-range="30d">30D</button>
+          <button class="filter-pill" data-range="90d">90D</button>
+          <button class="filter-pill" data-range="ytd">YTD</button>
+          <button class="filter-pill active" data-range="all">12M</button>
+        </nav>
+
+        <!-- Add Data Button -->
+        <button class="add-data-btn" id="addDataBtn" aria-label="Add monthly data">
+          <span>＋</span> Add Data
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+          <span class="icon-moon">🌙</span>
+          <span class="icon-sun">☀️</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ====== KPI CARDS ====== -->
+    <p class="section-label">Key Performance Indicators</p>
+    <div class="kpi-grid">
+
+      <!-- Cash Runway -->
+      <div class="kpi-card animate-in" data-accent="emerald" id="kpi-runway">
+        <div class="kpi-icon emerald">💰</div>
+        <div class="kpi-label">Cash Runway</div>
+        <div class="kpi-value">—</div>
+        <span class="kpi-trend up">↑ 0%</span>
+        <div class="kpi-subtext">Loading...</div>
+      </div>
+
+      <!-- Monthly Recurring Revenue -->
+      <div class="kpi-card animate-in" data-accent="blue" id="kpi-mrr">
+        <div class="kpi-icon blue">📈</div>
+        <div class="kpi-label">Monthly Revenue</div>
+        <div class="kpi-value">—</div>
+        <span class="kpi-trend up">↑ 0%</span>
+        <div class="kpi-subtext">Loading...</div>
+      </div>
+
+      <!-- Burn Rate -->
+      <div class="kpi-card animate-in" data-accent="coral" id="kpi-burn">
+        <div class="kpi-icon coral">🔥</div>
+        <div class="kpi-label">Burn Rate</div>
+        <div class="kpi-value">—</div>
+        <span class="kpi-trend down">↓ 0%</span>
+        <div class="kpi-subtext">Loading...</div>
+      </div>
+
+      <!-- Pipeline Value -->
+      <div class="kpi-card animate-in" data-accent="amber" id="kpi-pipeline">
+        <div class="kpi-icon amber">🎯</div>
+        <div class="kpi-label">Pipeline Value</div>
+        <div class="kpi-value">—</div>
+        <span class="kpi-trend up">↑ 0%</span>
+        <div class="kpi-subtext">Loading...</div>
+      </div>
+
+      <!-- Forecast Accuracy -->
+      <div class="kpi-card animate-in" data-accent="violet" id="kpi-forecast">
+        <div class="kpi-icon violet">🔮</div>
+        <div class="kpi-label">Forecast Accuracy</div>
+        <div class="kpi-value">—</div>
+        <span class="kpi-trend up">↑ 0%</span>
+        <div class="kpi-subtext">Loading...</div>
+      </div>
+
+      <!-- Team Velocity -->
+      <div class="kpi-card animate-in" data-accent="cyan" id="kpi-velocity">
+        <div class="kpi-icon cyan">🚀</div>
+        <div class="kpi-label">Team Velocity</div>
+        <div class="kpi-value">—</div>
+        <span class="kpi-trend up">↑ 0%</span>
+        <div class="kpi-subtext">Loading...</div>
+      </div>
+
+    </div>
+
+    <!-- ====== CHARTS — Top Row ====== -->
+    <p class="section-label">Revenue & Forecasting</p>
+    <div class="charts-grid">
+
+      <!-- Revenue Trend -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Revenue Trend</div>
+            <div class="chart-subtitle">Monthly revenue vs. expenses</div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#34d399"></div>
+              Revenue
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#f87171"></div>
+              Expenses
+            </div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Forecast vs Actual -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Forecast vs Actual</div>
+            <div class="chart-subtitle">Projected vs realized revenue</div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#34d399"></div>
+              Actual
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#60a5fa"></div>
+              Forecast
+            </div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="forecastChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ====== CHARTS — Bottom Row ====== -->
+    <p class="section-label">Operations & Pipeline</p>
+    <div class="bottom-grid">
+
+      <!-- Burn Rate Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Burn Rate Analysis</div>
+            <div class="chart-subtitle">Monthly expenses vs. revenue threshold</div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#f87171"></div>
+              Burn
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#34d399"></div>
+              Revenue
+            </div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="burnChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Sales Pipeline -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Sales Pipeline</div>
+            <div class="chart-subtitle">Value by deal stage</div>
+          </div>
+        </div>
+        <div class="chart-body">
+          <canvas id="pipelineChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ====== TEAM TABLE ====== -->
+    <div style="margin-top: var(--space-8);">
+      <p class="section-label">Team Productivity</p>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Team Performance</div>
+            <div class="chart-subtitle">Current sprint velocity & task completion</div>
+          </div>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Team Member</th>
+                <th>Velocity</th>
+                <th>Tasks</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="teamTableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== DATA ENTRY MODAL ====== -->
+  <div class="modal-overlay" id="dataModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Add Monthly Data</h2>
+          <p class="modal-subtitle">Enter your revenue and expenditure figures</p>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="Close modal">✕</button>
+      </div>
+
+      <form id="dataEntryForm" class="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="entryMonth">Month</label>
+            <select id="entryMonth">
+              <option value="Jan">January</option>
+              <option value="Feb">February</option>
+              <option value="Mar">March</option>
+              <option value="Apr">April</option>
+              <option value="May">May</option>
+              <option value="Jun">June</option>
+              <option value="Jul">July</option>
+              <option value="Aug">August</option>
+              <option value="Sep">September</option>
+              <option value="Oct">October</option>
+              <option value="Nov">November</option>
+              <option value="Dec">December</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="entryYear">Year</label>
+            <input type="number" id="entryYear" min="2020" max="2030" placeholder="2026">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="entryRevenue">Monthly Revenue ($)</label>
+            <div class="input-with-icon">
+              <span class="input-icon">💰</span>
+              <input type="number" id="entryRevenue" min="0" step="100" placeholder="e.g. 150000" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="entryExpenditure">Monthly Expenditure ($)</label>
+            <div class="input-with-icon">
+              <span class="input-icon">🔥</span>
+              <input type="number" id="entryExpenditure" min="0" step="100" placeholder="e.g. 85000" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" id="modalCancelBtn">Cancel</button>
+          <button type="submit" class="btn-primary">Add Entry</button>
+        </div>
+      </form>
+
+      <!-- Entries History -->
+      <div class="entries-section" id="entriesSection" style="display:none;">
+        <div class="entries-header">
+          <h3>Recent Entries</h3>
+          <button class="btn-clear" id="clearEntriesBtn">Clear All</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table" id="entriesTable">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Revenue</th>
+                <th>Expenditure</th>
+                <th>Profit</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="entriesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SCRIPTS ====== -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
